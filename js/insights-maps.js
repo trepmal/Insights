@@ -2,7 +2,8 @@ var map = null;
 var geocoder = new google.maps.Geocoder();
 
 var editingNow = false;
-var polys = null;
+var polys = [];
+var current_poly = null;
 var markers = [];
 
 var insights_map_id = 'insights-map';
@@ -28,8 +29,13 @@ function clearMarkers() {
 }
 
 function clearPolys() {
-	polys.setMap(null);
-	polys = null;
+	if (polys) {
+		for (i in polys) {
+			polys[i].setMap(null);
+		}
+	}
+	current_poly = null;
+	polys = [];
 }
 
 
@@ -52,10 +58,11 @@ function updateImage() {
 	//	 markersArray.push(marker.getLatLng().lat().toFixed(6) + "," + marker.getLatLng().lng().toFixed(6) + "," + markerParams);
 	if (markersArray.length) params.push("markers=" + markersArray.join("|"));
 
-	if ( polys != null ) {
+	// if ( polys != null ) {
 		var polyParams = "color:blue,weight:5|";
+	for (var i = 0; i < polys.length; i++) {
 
-		theline = polys.getPath().getArray().toString();
+		theline = polys[i].getPath().getArray().toString();
 		theline = theline.replace(/\),\(/g, '|');
 		theline = theline.replace(/, /g, ',');
 		theline = theline.replace(/\(/g, '');
@@ -101,7 +108,6 @@ function init_map() {
 		geocoder.geocode( { 'address': document.getElementById("insights-search").value }, function(results, status) {
 
 			if ( status == google.maps.GeocoderStatus.OK ) {
-				// console.log( document.getElementById("insights-search").value );
 				map.setCenter( results[0].geometry.location );
 			} else {
 				alert("Geocode was not successful for the following reason: " + status + "\nDid you provide a city and state?");
@@ -109,18 +115,22 @@ function init_map() {
 
 		});
 
-		google.maps.event.addListener( map, 'click', function( event ) {
-			if ( polys == null ) {
-		        var polyOptions = {
-		          strokeColor: '#000000',
-		          strokeOpacity: 1.0,
-		          strokeWeight: 3
-		        }
-		        polys = new google.maps.Polyline(polyOptions);
-		        polys.setMap(map);
+		var polyOptions = {
+			strokeColor: '#000000',
+			strokeOpacity: 1.0,
+			strokeWeight: 3
+		}
 
+		google.maps.event.addListener( map, 'click', function( event ) {
+			if ( current_poly == null ) {
+		        poly = new google.maps.Polyline(polyOptions);
+		        poly.setMap(map);
+		        current_poly = polys.length;
+		        polys.push(poly);
+			} else {
+				poly = polys[ current_poly ];
 			}
-	        var path = polys.getPath();
+	        var path = poly.getPath();
 
 	        // Because path is an MVCArray, we can simply append a new coordinate
 	        // and it will automatically appear
@@ -128,4 +138,7 @@ function init_map() {
 
 		});
 
+		google.maps.event.addListener( map, 'rightclick', function( event ) {
+			current_poly = null;
+		});
 }

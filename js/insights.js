@@ -1,12 +1,10 @@
 // Insights for WordPress plugin
 
 function send_wp_editor(html) {
-	// console.log( tinyMCE );
+	// this is still quirky
 	if ( typeof tinyMCE == 'undefined' ) {
-		// console.log( 'one' );
 		jQuery('#'+wpActiveEditor).val( jQuery('#'+wpActiveEditor).val() + html );
 	} else {
-		// console.log( 'two' );
 		var win = window.dialogArguments || opener || parent || top;
 		win.send_to_editor(html);
 	}
@@ -15,7 +13,6 @@ function send_wp_editor(html) {
 function insert_link(html_link) {
 	if ((typeof tinyMCE != "undefined") && (edt = tinyMCE.getInstanceById('content')) && !edt.isHidden()) {
 		var sel = edt.selection.getSel();
-		//sel.toString()
 		if (sel) {
 			var link = '<a href="' + html_link + '" title="' + sel + '">' + sel + '</a>';
 
@@ -129,11 +126,9 @@ jQuery(document).ready(function($) {
 
 			if (!map) {
 				init_map();
-				console.log( 'first' );
 			}
 			else {
 				showAddress();
-				console.log( 'second');
 			}
 
 			last_mode = mode;

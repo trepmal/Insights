@@ -1,164 +1,131 @@
 var map = null;
-var geocoder = null;
+var geocoder = new google.maps.Geocoder();
+
 var editingNow = false;
-var polys = [];
+var polys = null;
 var markers = [];
 
+var insights_map_id = 'insights-map';
+
 function createMarkerAt() {
-    var marker = new GMarker(map.getCenter(), {
-        draggable: true
-    });
-    GEvent.addListener(marker, 'dragend',
-    function() {
-        
-    });
-    map.addOverlay(marker);
-    markers.push(marker);
-}
-
-function createPolyAt(latlng) {
-    var poly = new GPolyline([latlng]);
-    map.addOverlay(poly);
-    poly.enableDrawing();
-    editingNow = true;
-    GEvent.addListener(poly, "mouseover",
-    function() {
-        poly.enableEditing();
-    });
-    GEvent.addListener(poly, "mouseout",
-    function() {
-        poly.disableEditing();
-    });
-    GEvent.addListener(poly, "lineupdated",
-    function() {
-
-});
-    GEvent.addListener(poly, "endline",
-    function() {
-        editingNow = false;
-    });
-    polys.push(poly);
+	marker = new google.maps.Marker({
+		position: map.getCenter(),
+		map: map,
+		title: "Drag Me!",
+		draggable: true
+	});
+	marker.setDraggable(true);
+	markers.push(marker);
 }
 
 function clearMarkers() {
-    for (var i = 0; i < markers.length; i++) {
-        map.removeOverlay(markers[i]);
-    }
-    markers = [];
-
+	if (markers) {
+		for (i in markers) {
+			markers[i].setMap(null);
+		}
+	}
+	markers = [];
 }
 
 function clearPolys() {
-    for (var i = 0; i < polys.length; i++) {
-        map.removeOverlay(polys[i]);
-    }
-    polys = [];
-    updateImage();
+	polys.setMap(null);
+	polys = null;
 }
 
+
 function updateImage() {
-    var baseUrl = "http://maps.google.com/staticmap?";
+	api = InsightsMapSettings.v3api;
+	var baseUrl = "http://maps.googleapis.com/maps/api/staticmap?";
 
-    var params = [];
-    params.push("center=" + map.getCenter().lat().toFixed(6) + "," + map.getCenter().lng().toFixed(6));
+	var params = [];
+	params.push("center=" + map.getCenter().lat().toFixed(6) + "," + map.getCenter().lng().toFixed(6));
 
-    var markerSize = '';
-    var markerColor = 'red';
-    var markerLetter = '';
-    var markerParams = markerSize + markerColor + markerLetter;
-    var markersArray = [];
-    for (var i = 0; i < markers.length; i++) {
-        markersArray.push(markers[i].getLatLng().lat().toFixed(6) + "," + markers[i].getLatLng().lng().toFixed(6) + "," + markerParams);
-    }
+	var markerSize = '';
+	var markerColor = 'red';
+	var markerLetter = '';
+	var markerParams = markerSize + markerColor + markerLetter;
+	var markersArray = [];
+	for (var i = 0; i < markers.length; i++) {
+		markersArray.push( 'color: '+ markerColor + '%7C' + markers[i].getPosition().lat().toFixed(6) + "," + markers[i].getPosition().lng().toFixed(6) );
+	}
 
-    //	 markersArray.push(marker.getLatLng().lat().toFixed(6) + "," + marker.getLatLng().lng().toFixed(6) + "," + markerParams);
-    if (markersArray.length) params.push("markers=" + markersArray.join("|"));
+	//	 markersArray.push(marker.getLatLng().lat().toFixed(6) + "," + marker.getLatLng().lng().toFixed(6) + "," + markerParams);
+	if (markersArray.length) params.push("markers=" + markersArray.join("|"));
 
-    var polyColor = '0000FF';
-    var polyAlpha = '80';
-    var polyWeight = '5';
-    var polyParams = "rgba:0x" + polyColor + polyAlpha + ",weight:" + polyWeight + "|";
-    for (var i = 0; i < polys.length; i++) {
-        var poly = polys[i];
-        var polyLatLngs = [];
-        for (var j = 0; j < poly.getVertexCount(); j++) {
-            polyLatLngs.push(poly.getVertex(j).lat().toFixed(5) + "," + poly.getVertex(j).lng().toFixed(5));
-        }
-        params.push("path=" + polyParams + polyLatLngs.join("|"));
-    }
+	if ( polys != null ) {
+		var polyParams = "color:blue,weight:5|";
 
-    params.push("zoom=" + map.getZoom());
-    params.push("size=" + 480 + "x" + 300);
+		theline = polys.getPath().getArray().toString();
+		theline = theline.replace(/\),\(/g, '|');
+		theline = theline.replace(/, /g, ',');
+		theline = theline.replace(/\(/g, '');
+		theline = theline.replace(/\)/g, '');
 
-    var ret = baseUrl + params.join("&") + "&key="+InsightsSettings.insights_maps_api;
+		params.push("path=" + polyParams + theline );
+	}
+	params.push("zoom=" + map.getZoom());
+	params.push("size=" + 480 + "x" + 300);
 
-    /*  var img = document.createElement("img");
-   
-   img.src = baseUrl + params.join("&") + "&key=ABQIAAAAV_qfpfUu8uDt3u2UBmjZMBS7bHKUqFE5rBpovpXcTDxFZSYncxRILGNAmXOZzcdCktfOB2SX1-FqVA";
-   document.getElementById("insights-image").innerHTML = "";
-   document.getElementById("insights-image").appendChild(img);
+	var ret = baseUrl + params.join("&") + "&sensor=false&key="+api;
 
-   document.getElementById("insights-results").innerHTML = baseUrl + params.join("&") + "&key=YOUR_KEY_HERE";*/
-    return ret;
+	return ret;
 }
 
 function showAddress() {
-    var searchField = document.getElementById("insights-search");
+	var searchField = document.getElementById("insights-search");
 
-    var address = searchField.value;
-    if (geocoder) {
-        geocoder.getLatLng(address,
-        function(point) {
-            if (!point) {
-                alert(address + " not found");
-            } else {
-                map.setCenter(point);
-            }
-        });
-    }
+	var address = searchField.value;
+
+		geocoder.geocode( { 'address': address }, function(results, status) {
+
+		if ( status == google.maps.GeocoderStatus.OK ) {
+				map.setCenter( results[0].geometry.location );
+				// do_marker( map, results[0].geometry.location );
+			} else {
+				alert("Geocode was not successful for the following reason: " + status + "\nDid you provide a city and state?");
+			}
+
+		});
 }
 function init_map() {
-    if (GBrowserIsCompatible() && document.getElementById("insights-map")) {
-        map = new GMap2(document.getElementById("insights-map"));
-        var mapTypeControl = new GMapTypeControl();
 
-        map.addMapType(G_PHYSICAL_MAP);
-        map.addControl(new GLargeMapControl());
-        //	map.addControl(mapTypeControl);
-        map.setMapType(G_NORMAL_MAP);
+		var myLatlng = new google.maps.LatLng( '48.168375', '-123.475486' );
+		var options = {
+			zoom: 10,
+			center: myLatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
+		map = new google.maps.Map(document.getElementById(insights_map_id), options );
 
-        geocoder = new GClientGeocoder();
-        geocoder.getLatLng(document.getElementById("insights-search").value,
-        function(point) {
-            if (!point) {
-                alert(address + " not found");
-            } else {
-                map.setCenter(point, 15);
-            }
-        });
-        //	marker = new GMarker(center, {draggable: true});
 
-        GEvent.addListener(map, "click",
-        function(overlay, latlng) {
-            if (latlng && !editingNow) {
-                createPolyAt(latlng);
-            }
+		geocoder.geocode( { 'address': document.getElementById("insights-search").value }, function(results, status) {
 
-        });
-        
+			if ( status == google.maps.GeocoderStatus.OK ) {
+				// console.log( document.getElementById("insights-search").value );
+				map.setCenter( results[0].geometry.location );
+			} else {
+				alert("Geocode was not successful for the following reason: " + status + "\nDid you provide a city and state?");
+			}
 
-        GEvent.addListener(map, "zoomend",
-        function(oldLevel, newLevel) {
-            
-        });
+		});
 
-        
+		google.maps.event.addListener( map, 'click', function( event ) {
+			if ( polys == null ) {
+		        var polyOptions = {
+		          strokeColor: '#000000',
+		          strokeOpacity: 1.0,
+		          strokeWeight: 3
+		        }
+		        polys = new google.maps.Polyline(polyOptions);
+		        polys.setMap(map);
 
-    }
-}
+			}
+	        var path = polys.getPath();
 
-if (document.all && window.attachEvent) { // IE-Win
-    window.attachEvent("onunload", GUnload);
-} else if (window.addEventListener) { // Others
-    window.addEventListener("unload", GUnload, false);
+	        // Because path is an MVCArray, we can simply append a new coordinate
+	        // and it will automatically appear
+	        path.push(event.latLng);
+
+		});
+
 }

@@ -1,9 +1,9 @@
 === Insights ===
-Contributors: freediver
-Donate link: https://www.networkforgood.org/donation/MakeDonation.aspx?ORGID2=520781390
+Contributors: trepmal, freediver
+Donate link: kaileylampert.com/donate/
 Tags:  admin, posts, images, links, google, ajax, jquery, youtube, video, play, media, Post, posts
 Requires at least: 2.3
-Tested up to: 3.2.1
+Tested up to: 3.5.1
 Stable tag: trunk
 
 Insights allows you to quickly access and insert information (links, images, videos, maps..) into your blog posts.
@@ -33,6 +33,12 @@ Plugin by Vladimir Prelovac. Looking for <a href="http://www.prelovac.com/vladim
 
 == Changelog ==
 
+= 2 =
+* No more inclusion of wp-load.php
+* Update to newer Google Maps API
+* General cleanup
+* First Fork by Kailey Lampert
+
 = 1.0.5 =
 * WordPress 3.2 compatibility
 
@@ -58,10 +64,10 @@ Thanks.
 == Installation ==
 
 1. Upload the whole plugin folder to your /wp-content/plugins/ folder.
-2. Go to the 'Plugins' page in the menu and activate the plugin.
-3. Use the 'Options' page to change your plugin options.
-4. If you want to use Google Maps module then get your free Google Maps key here: http://code.google.com/apis/maps/signup.html
-5. Write a new post. You will notice Insights toolbar. Use it :)
+1. Go to the 'Plugins' page in the menu and activate the plugin.
+1. Use the 'Options' page to change your plugin options.
+1. If you want to use Google Maps module then get your free Google Maps key here: http://code.google.com/apis/maps/signup.html
+1. Write a new post. You will notice Insights toolbar. Use it :)
 
 
 == Screenshots ==

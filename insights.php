@@ -103,11 +103,11 @@ class WPInsights {
 		$options = $this->get_options();
 	?>
 <p>Enter keywords you would like to search for and press Search button.</p>
-<input type="text" id="insights-search" name="insights-search" size="60" autocomplete="off" value='ua'/>
+<input type="text" id="insights-search" name="insights-search" size="60" autocomplete="off"/>
 <input id="insights-submit" class="button" type="button" value="Search"  /> <br />
 
 <label><input name="insights-radio" type="radio" checked="" value="1" /> My Blog</label>
-<label><input name="insights-radio" type="radio" value="2"/> Images</label>	
+<label><input name="insights-radio" type="radio" value="2"/> Images</label>
 <label><input name="insights-radio" type="radio" value="3"/> Videos</label>
 <label><input name="insights-radio" type="radio" value="4"/> Wikipedia</label>
 <label><input name="insights-radio" type="radio" value="6"/> Google</label>
@@ -115,7 +115,7 @@ class WPInsights {
 <label><input name="insights-radio" type="radio" value="10"/> Blogs</label>
 <label><input name="insights-radio" type="radio" value="11"/> Books</label>
 <?php if ( ! empty( $options['maps_api'] ) ) : ?>
-<label><input name="insights-radio" type="radio" checked value="5"/> Maps</label>
+<label><input name="insights-radio" type="radio" value="5"/> Maps</label>
 <?php endif; ?>
 
 <div id="insights-results"></div>

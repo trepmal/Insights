@@ -216,8 +216,8 @@ function search_wiki( $keyword ) {
 
 	if ( $rsp_obj ) {
 		foreach( $rsp_obj['query']['search'] as $item )
-				// display every post link and excerpt
-				$output .= '<p>
+			// display every post link and excerpt
+			$output .= '<p>
 		<a onclick="insert_link(\'http://en.wikipedia.org/wiki/'.str_replace(" ","_", $item['title']) . '\')" style="cursor:pointer;"  >
 		<strong>' . $item['title'] . '</strong>
 		</a></p>';

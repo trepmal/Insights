@@ -96,14 +96,13 @@ jQuery(document).ready(function($) {
 	var last_mode = undefined;
 	var last_search = undefined;
 
-   	function show_results(output, mode)
-   	{
-   		 var curr_mode = $("input[name='insights-radio']:checked").val();
-   		 if (mode==curr_mode)
-   		 	  $('#insights-results').html(output);
-   		 else
-   		 	$('#insights-results').html('');
-   	}
+	function show_results(output, mode) {
+		var curr_mode = $("input[name='insights-radio']:checked").val();
+		if (mode==curr_mode)
+			$('#insights-results').html(output);
+		else
+			$('#insights-results').html('');
+	}
 
 	function submit_me() {
 
@@ -142,45 +141,43 @@ jQuery(document).ready(function($) {
 		if ((jQuery.trim(phrase) == last_search) && last_mode == mode) {
 			return;
 		}
- 				last_mode = mode;
+		last_mode = mode;
 		last_search = phrase;
 
 		$('#insights-results').html('<img src="' + InsightsSettings.insights_url + '/img/loading.gif" />');
 
 		if (mode==4) // wikipedia
-	   	{
+		{
 
-	   		$.getJSON('http://en.wikipedia.org/w/api.php?action=query&list=search&srwhat=text&srlimit=10&srsearch='+escape(phrase)+'&format=json&callback=?',
+			$.getJSON('http://en.wikipedia.org/w/api.php?action=query&list=search&srwhat=text&srlimit=10&srsearch='+escape(phrase)+'&format=json&callback=?',
 				function(data){
 					var output='';
 					var wikipediaUrl = "http://en.wikipedia.org/wiki/";
 					if (!data.query.search.length)
 						output='No results matching "'+phrase+'".';
-				  else
-				  $.each(data.query.search, function(i,item){
-				  	output = output+'<p><a  target="_blank" style="text-decoration:none;" href="'+ wikipediaUrl + item.title.replace(/ /g, "_")+'" ><strong>'+item.title+ '</strong></a> <img title="Insert link to selection" style="cursor:pointer;" onclick="insert_link(\''+wikipediaUrl + item.title.replace(/ /g, "_")+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /></p>';
-				  });
-				  show_results(output, mode);
-
-
-	   			 });
+					else
+						$.each(data.query.search, function(i,item){
+							output = output+'<p><a  target="_blank" style="text-decoration:none;" href="'+ wikipediaUrl + item.title.replace(/ /g, "_")+'" ><strong>'+item.title+ '</strong></a> <img title="Insert link to selection" style="cursor:pointer;" onclick="insert_link(\''+wikipediaUrl + item.title.replace(/ /g, "_")+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /></p>';
+						});
+					show_results(output, mode);
+				 });
 			return;
-	   	}
+		}
 
 
 		if (mode==6)  // google
 		{
-			   $.getJSON("http://ajax.googleapis.com/ajax/services/search/web?q="+escape(phrase)+"&v=1.0&rsz=large&callback=?",
+			$.getJSON("http://ajax.googleapis.com/ajax/services/search/web?q="+escape(phrase)+"&v=1.0&rsz=large&callback=?",
 				function(data){
 					var output='';
 					if (!data.responseData.results.length)
 						output='No results matching "'+phrase+'".';
-				  else
-				  $.each(data.responseData.results, function(i,item){
-				   output=output+'<p><a  target="_blank" style="text-decoration:none;" href="'+item.url+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.url+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><p>'+item.content+'</p></p>';
-				  });
+					else
+						$.each(data.responseData.results, function(i,item){
+							output=output+'<p><a  target="_blank" style="text-decoration:none;" href="'+item.url+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.url+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><p>'+item.content+'</p></p>';
+						});
 
-				  show_results(output, mode);
+					show_results(output, mode);
 				});
 
 			return;
@@ -193,13 +190,12 @@ jQuery(document).ready(function($) {
 					var output='';
 					if (!data.responseData.results.length)
 						output='No results matching "'+phrase+'".';
-				  else
-				  $.each(data.responseData.results, function(i,item){
-				   output=output+'<p><a  target="_blank" style="text-decoration:none;" href="'+item.unescapedUrl+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.url+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><br />'+item.publisher+', '+item.location+' on '+item.publishedDate +'<p>'+item.content+'</p></p>';
+					else
+						$.each(data.responseData.results, function(i,item){
+							output=output+'<p><a  target="_blank" style="text-decoration:none;" href="'+item.unescapedUrl+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.url+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><br />'+item.publisher+', '+item.location+' on '+item.publishedDate +'<p>'+item.content+'</p></p>';
+						});
 
-				  });
-
-				 show_results(output, mode);
+					show_results(output, mode);
 				});
 
 			return;
@@ -208,18 +204,17 @@ jQuery(document).ready(function($) {
 
 		if (mode==10)  // blogs
 		{
-			   $.getJSON("http://ajax.googleapis.com/ajax/services/search/blogs?q="+escape(phrase)+"&v=1.0&scoring=d&rsz=large&callback=?",
+			$.getJSON("http://ajax.googleapis.com/ajax/services/search/blogs?q="+escape(phrase)+"&v=1.0&scoring=d&rsz=large&callback=?",
 				function(data){
 					var output='';
 					if (!data.responseData.results.length)
 						output='No results matching "'+phrase+'".';
-				  else
-				  $.each(data.responseData.results, function(i,item){
-				   output=output+'<p><a  target="_blank" style="text-decoration:none;" href="'+item.postUrl+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.postUrl+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><br />'+item.blogUrl+'<p>'+item.content+'</p></p>';
-				  });
+					else
+						$.each(data.responseData.results, function(i,item){
+							output=output+'<p><a  target="_blank" style="text-decoration:none;" href="'+item.postUrl+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.postUrl+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><br />'+item.blogUrl+'<p>'+item.content+'</p></p>';
+						});
 
-
-				  show_results(output, mode);
+					show_results(output, mode);
 				});
 
 			return;
@@ -228,17 +223,17 @@ jQuery(document).ready(function($) {
 
 		if (mode==11)  // books
 		{
-					$.getJSON("http://ajax.googleapis.com/ajax/services/search/books?q="+escape(phrase)+"&v=1.0&as_brr=1&rsz=large&callback=?",
+			$.getJSON("http://ajax.googleapis.com/ajax/services/search/books?q="+escape(phrase)+"&v=1.0&as_brr=1&rsz=large&callback=?",
 				function(data){
 					var output='';
 					if (!data.responseData.results.length)
 						output='No results matching "'+phrase+'".';
-				  else
-				  $.each(data.responseData.results, function(i,item){
-				  		output=output+'<p><a target="_blank" style="text-decoration:none;" href="'+item.unescapedUrl+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.unescapedUrl+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><p>'+ item.authors+', published '+item.publishedYear+', '+item.pageCount+' pages </p></p>';
-				  });
+					else
+						$.each(data.responseData.results, function(i,item){
+							output=output+'<p><a target="_blank" style="text-decoration:none;" href="'+item.unescapedUrl+'"><strong>'+ item.titleNoFormatting+'</strong></a> <img style="cursor:pointer;" title="Insert link to selection" onclick="insert_link(\''+item.unescapedUrl+'\');" src="'+InsightsSettings.insights_url+'/img/link.png" /><p>'+ item.authors+', published '+item.publishedYear+', '+item.pageCount+' pages </p></p>';
+						});
 
-				  show_results(output, mode);
+					show_results(output, mode);
 				});
 
 			return;
@@ -253,7 +248,7 @@ jQuery(document).ready(function($) {
 		if (cached)
 				show_results(cached, mode);
 		else
-	   	{
+		{
 			var apiParams = {
 				search: phrase,
 				mode: mode,
@@ -278,13 +273,6 @@ jQuery(document).ready(function($) {
 		}
 
 	}
-
-	// measure time
-	// var startTime=new Date();
-	// search button click event
-	// var endTime=new Date();
-	  // var responseTime=(endTime.getTime()-startTime.getTime());
-
 
 	$('#insights-submit').click(function() {
 		submit_me();

@@ -35,26 +35,3 @@
 	</form>
 
 </div>
-type</label>  <br />
-					
-					<br />
-					<h2>Google Maps</h2>								
-					<br /> 				
-					<input type="checkbox" name="gmaps"  <?php echo $gmaps ?> /><label for="gmaps"> Turn on Google Maps module</label>  <br />
-					<br /> 				
-					Enter your Google Maps API key. You can get it free <a href="http://code.google.com/apis/maps/signup.html">here</a>.<br/>
-					<input type="text" name="maps_api" size="100" value="<?php echo $maps_api ?>"/><br />  					
-					<br /> 				
-																								
-					<div class="submit"><input type="submit" name="Submit" value="Update" /></div>
-			</form>
-		</div>
-				
-	<br/><br/><h3>&nbsp;</h3>	
-	 </div>
-
-	</div>
-	
-<h5>WordPress plugin by <a href="http://www.prelovac.com/vladimir/">Vladimir Prelovac</a></h5>
-</div>
-

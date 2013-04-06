@@ -1,7 +1,7 @@
 <div class="wrap" >
 	<h2>Insights</h2>
 
-	<form action="<?php echo $action_url ?>" method="post">
+	<form action="<?php echo add_query_arg('',''); ?>" method="post">
 
 		<input type="hidden" name="submitted" value="1" />
 		<?php wp_nonce_field('insights'); ?>

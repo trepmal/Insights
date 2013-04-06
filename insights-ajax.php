@@ -136,7 +136,7 @@ function search_flickr( $keyword, $mode = 'tags', $count = 16, $nonc = 0 ) {
 			$src = 'http://farm' . $photo['farm'] . '.static.flickr.com/' . $photo['server'] . '/' . $photo['id'] . '_' . $photo['secret'];
 
 			// create output
-			$output .= '<img hspace="2" vspace="2" src="' . $src . '_s.jpg" title="' . $photo['title'] . '" onclick="insert_image(\'' . $link . '\', \'' . $src . '\', \'' . str_replace("'", "&acute;", $photo['title']) . '\');" />';
+			$output .= '<img hspace="2" vspace="2" src="' . $src . '_s.jpg" title="' . addslashes( esc_attr( $photo['title'] ) ) . '" onclick="insert_image(\'' . $link . '\', \'' . $src . '\', \'' . esc_js( addslashes( esc_attr( $photo['title'] ) ) ) . '\');" />';
 
 		}
 	}

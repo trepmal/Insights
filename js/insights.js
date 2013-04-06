@@ -105,7 +105,7 @@ function insert_link(html_link) {
 
 function insert_image(link, src, title) {
 	var size = document.getElementById('img_size').value;
-	var img = '<a href="' + link + '"><img src="' + src + size + '.jpg" alt="' + title + '" title="' + title + '" hspace="5" border="0" /></a>';
+	var img = '<a href="' + link + '"><img src="' + src + size + '.jpg" alt="' + title.replace(/\"/g, "'") + '" title="' + title.replace(/\"/g, "'") + '" hspace="5" border="0" /></a>';
 
 	send_wp_editor( img );
 }

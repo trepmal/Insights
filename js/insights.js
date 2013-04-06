@@ -59,7 +59,26 @@ function send_wp_editor( html1, html2, def ) {
 		if ( document.selection ) { //IE - NEEDS TESTING
 			canvas.focus();
 			sel = document.selection.createRange();
-			sel.text = '<a href="' + html_link + '" title="' + sel.text + '">' + sel.text + '</a>';
+
+			if ( sel.text == '' )  { // if no selection
+
+				if ( typeof html2 == 'undefined' ) {
+					newtext = html1;
+				} else {
+					newtext = html1 + def + html2;
+				}
+
+				// selection = html_link;
+			} else { // if selection
+				if ( typeof html2 == 'undefined' ) {
+					newtext = html1;
+				} else {
+					newtext = html1 + sel.text + html2;
+				}
+
+			}
+
+			sel.text = newtext;
 			canvas.focus();
 		} else if ( canvas.selectionStart || canvas.selectionStart == '0' ) { // FF, WebKit, Opera
 			canvas.selectionStart

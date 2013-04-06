@@ -21,10 +21,9 @@ function send_wp_editor( html1, html2, def ) {
 	}
 
 	if ((typeof tinyMCE != "undefined") && (edt = tinyMCE.getInstanceById('content')) && !edt.isHidden() ) {
-		var sel = edt.selection.getSel();
+		var sel = edt.selection.getContent({format : 'text'});
 
-
-		if ( sel.type == 'Caret' ) { // if no selection
+		if ( sel == '' ) { // if no selection
 
 			if ( typeof html2 == 'undefined' ) {
 				text = html1;
@@ -36,7 +35,7 @@ function send_wp_editor( html1, html2, def ) {
 
 			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text );
 
-		} else if ( sel.type == 'Range' ) { // if selection
+		} else { // if selection
 
 			if ( typeof html2 == 'undefined' ) {
 				text = html1;

@@ -29,8 +29,6 @@ Check the [screenshots](http://wordpress.org/extend/plugins/insights/screenshots
 
 Insights allows you to do all this using dynamic AJAX interface which loads the relevant information to your post in just a few seconds.
 
-Plugin by Vladimir Prelovac. Looking for <a href="http://www.prelovac.com/vladimir/services">WordPress Consultant</a>?
-
 == Changelog ==
 
 = 2 =
@@ -68,7 +66,7 @@ Thanks.
 1. Upload the whole plugin folder to your /wp-content/plugins/ folder.
 1. Go to the 'Plugins' page in the menu and activate the plugin.
 1. Use the 'Options' page to change your plugin options.
-1. If you want to use Google Maps module then get your free Google Maps key here: http://code.google.com/apis/maps/signup.html
+1. If you want to use Google Maps module then get your free Google Maps key here: https://code.google.com/apis/console
 1. Write a new post. You will notice Insights toolbar. Use it :)
 
 
@@ -89,14 +87,3 @@ Insights is free software: you can redistribute it and/or modify it under the te
 Insights is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with Insights. If not, see <http://www.gnu.org/licenses/>.
-
-
-== Frequently Asked Questions ==
-
-= Can I suggest an feature for the plugin? =
-
-Of course, visit [Insights Home Page](http://www.prelovac.com/vladimir/wordpress-plugins/Insights#comments)
-
-= I love your work, are you available for hire? =
-
-Yes I am, visit my [WordPress & SEO Consulting](http://www.prelovac.com/vladimir/services) page to find out more.

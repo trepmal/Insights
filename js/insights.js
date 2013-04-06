@@ -113,7 +113,14 @@ function send_wp_editor( html1, html2, def ) {
 			canvas.selectionEnd = startPos + content.length;
 			canvas.scrollTop = scrollTop;
 		} else {
-			canvas.value += '<a href="' + html_link + '" title="">' + html_link + '</a>'; //this probably should fetch title for default
+
+				if ( typeof html2 == 'undefined' ) {
+					newtext = html1;
+				} else {
+					newtext = html1 + def + html2;
+				}
+
+			canvas.value += newtext;
 			canvas.focus();
 		}
 	}

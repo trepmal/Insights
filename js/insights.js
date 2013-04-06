@@ -1,39 +1,93 @@
 // Insights for WordPress plugin
 
-function send_wp_editor(html) {
-	// this is still quirky
-	if ( typeof tinyMCE == 'undefined' ) {
-		jQuery('#'+wpActiveEditor).val( jQuery('#'+wpActiveEditor).val() + html );
-	} else {
-		var win = window.dialogArguments || opener || parent || top;
-		win.send_to_editor(html);
+function send_wp_editor( html1, html2, def ) {
+	//if tinymce
+		//if no selection
+			//if no html2 insert at end
+			//else use wrap around a default value
+		//if selection
+			//if no html2 replace selection
+			//else wrap
+	//else
+		//if no selection
+			//if no html2 insert at end
+			//else use wrap around a default value
+		//if selection
+			//if no html2 replace selection
+			//else wrap
+
+	if ( typeof def == 'undefined' ) {
+		def = '##';
 	}
-}
 
-function insert_link(html_link) {
-	if ((typeof tinyMCE != "undefined") && (edt = tinyMCE.getInstanceById('content')) && !edt.isHidden()) {
+	if ((typeof tinyMCE != "undefined") && (edt = tinyMCE.getInstanceById('content')) && !edt.isHidden() ) {
 		var sel = edt.selection.getSel();
-		if (sel) {
-			var link = '<a href="' + html_link + '" title="' + sel + '">' + sel + '</a>';
 
-			send_wp_editor(link);
+
+		if ( sel.type == 'Caret' ) { // if no selection
+
+			if ( typeof html2 == 'undefined' ) {
+				text = html1;
+			} else {
+				text = html1 + def + html2;
+			}
+
+			text = text.replace( /\n/g, '<br />' );
+
+			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text );
+
+		} else if ( sel.type == 'Range' ) { // if selection
+
+			if ( typeof html2 == 'undefined' ) {
+				text = html1;
+			} else {
+				text = html1 + sel + html2;
+			}
+
+			var win = window.dialogArguments || opener || parent || top;
+			win.send_to_editor( text );
+
 		}
 	} else {
 		// crazyness to wrap selection
-		canvas = document.getElementById(wpActiveEditor);
-		if ( document.selection ) { //IE
+		if ( typeof wpActiveEditor == 'undefined' )
+			wpActiveEditor = 'content';
+
+		// console.log( wpActiveEditor );
+		canvas = document.getElementById( wpActiveEditor );
+
+		if ( document.selection ) { //IE - NEEDS TESTING
 			canvas.focus();
 			sel = document.selection.createRange();
 			sel.text = '<a href="' + html_link + '" title="' + sel.text + '">' + sel.text + '</a>';
 			canvas.focus();
 		} else if ( canvas.selectionStart || canvas.selectionStart == '0' ) { // FF, WebKit, Opera
+			canvas.selectionStart
 			text = canvas.value;
 			startPos = canvas.selectionStart;
 			endPos = canvas.selectionEnd;
 			scrollTop = canvas.scrollTop;
 
-			selection = text.substring(startPos, endPos );
-			canvas.value = text.substring(0, startPos) + '<a href="' + html_link + '" title="' + selection + '">' + selection + '</a>';+ text.substring(endPos, text.length);
+			selection = text.substring( startPos, endPos );
+			if ( selection == '' )  { // if no selection
+
+				if ( typeof html2 == 'undefined' ) {
+					newtext = html1;
+				} else {
+					newtext = html1 + def + html2;
+				}
+
+				// selection = html_link;
+			} else { // if selection
+				if ( typeof html2 == 'undefined' ) {
+					newtext = html1;
+				} else {
+					newtext = html1 + selection + html2;
+				}
+
+			}
+
+			canvas.value = text.substring(0, startPos) + newtext + text.substring(endPos, text.length);
 
 			canvas.focus();
 			canvas.selectionStart = startPos + content.length;
@@ -43,36 +97,33 @@ function insert_link(html_link) {
 			canvas.value += '<a href="' + html_link + '" title="">' + html_link + '</a>'; //this probably should fetch title for default
 			canvas.focus();
 		}
-
 	}
-	return false;
+}
+function insert_link(html_link) {
+	send_wp_editor( '<a href="' + html_link + '">', '</a>', html_link );
 }
 
 function insert_image(link, src, title) {
 	var size = document.getElementById('img_size').value;
 	var img = '<a href="' + link + '"><img src="' + src + size + '.jpg" alt="' + title + '" title="' + title + '" hspace="5" border="0" /></a>';
 
-	send_wp_editor(img);
+	send_wp_editor( img );
 }
 
 
 var videoid = 0;
 
 function insert_video() {
-	// var video = '<object type="application/x-shockwave-flash" width="425" height="344" data="http://www.youtube.com/v/' + videoid + '&amp;rel=0&amp;fs=1"><param name="movie" value="http://www.youtube.com/v/' + videoid + '&amp;rel=0&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="wmode" value="transparent" /></object>';
 	// take advantage of oembed
 	var video = "\n" + 'http://www.youtube.com/watch?v=' + videoid + "\n";
 
-	send_wp_editor(video);
+	send_wp_editor( video );
 }
 
 function insert_map() {
 	var maphtml = '<img src="' + updateImage() + '" alt="" />';
 
-	setTimeout(function(){
-
-		send_wp_editor(maphtml);
-	}, 500 );
+	send_wp_editor( maphtml );
 }
 
 function show_video(ytfile, yttitle, ytdesc, ytviews, ytrating) {

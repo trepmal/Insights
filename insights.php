@@ -72,33 +72,32 @@ class WPInsights {
 
 	}
 
-
 	function draw_insights() {
 		$options = $this->get_options();
 	?>
-<p>Enter keywords you would like to search for and press Search button.</p>
+<p><?php _e( 'Enter keywords you would like to search for and press Search button.', 'insights' ); ?></p>
 <input type="text" id="insights-search" name="insights-search" size="60" autocomplete="off"/>
-<input id="insights-submit" class="button" type="button" value="Search"  /> <br />
+<input id="insights-submit" class="button" type="button" value="<?php _e( 'Search', 'insights' ); ?>"  /> <br />
 
-<label><input name="insights-radio" type="radio" checked="" value="1" /> My Blog</label>
-<label><input name="insights-radio" type="radio" value="2"/> Images</label>
-<label><input name="insights-radio" type="radio" value="3"/> Videos</label>
-<label><input name="insights-radio" type="radio" value="4"/> Wikipedia</label>
-<label><input name="insights-radio" type="radio" value="6"/> Google</label>
-<label><input name="insights-radio" type="radio" value="7"/> News</label>
-<label><input name="insights-radio" type="radio" value="10"/> Blogs</label>
-<label><input name="insights-radio" type="radio" value="11"/> Books</label>
+<label><input name="insights-radio" type="radio" checked="" value="1" /> <?php _e( 'My Blog', 'insights' ); ?></label>
+<label><input name="insights-radio" type="radio" value="2"/> <?php _e( 'Images', 'insights' ); ?></label>
+<label><input name="insights-radio" type="radio" value="3"/> <?php _e( 'Videos', 'insights' ); ?></label>
+<label><input name="insights-radio" type="radio" value="4"/> <?php _e( 'Wikipedia', 'insights' ); ?></label>
+<label><input name="insights-radio" type="radio" value="6"/> <?php _e( 'Google', 'insights' ); ?></label>
+<label><input name="insights-radio" type="radio" value="7"/> <?php _e( 'News', 'insights' ); ?></label>
+<label><input name="insights-radio" type="radio" value="10"/> <?php _e( 'Blogs', 'insights' ); ?></label>
+<label><input name="insights-radio" type="radio" value="11"/> <?php _e( 'Books', 'insights' ); ?></label>
 <?php if ( ! empty( $options['maps_api'] ) ) : ?>
-<label><input name="insights-radio" type="radio" value="5"/> Maps</label>
+<label><input name="insights-radio" type="radio" value="5"/> <?php _e( 'Maps', 'insights' ); ?></label>
 <?php endif; ?>
 
 <div id="insights-results"></div>
 	<div id="insights-map-all" style="display:none" >
 		<p>
-		<input class="button" type="button" value="Add Map" onclick="insert_map();">
-		<input class="button" type="button" value="Add Marker" onclick="createMarkerAt();">
-		<input class="button" type="button" value="Clear Markers" onclick="clearMarkers();">
-		<input class="button" type="button" value="Clear Path" onclick="clearPolys();">
+		<input class="button" type="button" value="<?php _e( 'Add Map', 'insights' ); ?>" onclick="insert_map();">
+		<input class="button" type="button" value="<?php _e( 'Add Marker', 'insights' ); ?>" onclick="createMarkerAt();">
+		<input class="button" type="button" value="<?php _e( 'Clear Markers', 'insights' ); ?>" onclick="clearMarkers();">
+		<input class="button" type="button" value="<?php _e( 'Clear Path', 'insights' ); ?>" onclick="clearPolys();">
 		</p>
 	<div id="insights-map" style="height:450px; width:100%; padding:0px; margin:0px;"></div>
 </div>
@@ -109,10 +108,10 @@ class WPInsights {
 	// Hook the options mage
 	function admin_menu() {
 
-		add_options_page('Insights Options', 'Insights', 'edit_pages', basename(__FILE__), array( &$this, 'handle_options' ) );
+		add_options_page( __( 'Insights Options', 'insights' ), __( 'Insights', 'insights' ), 'edit_pages', basename(__FILE__), array( &$this, 'handle_options' ) );
 		$show_on = apply_filters( 'insights_meta_box', array( 'post', 'page' ) );
 		foreach( $show_on as $s ) {
-			add_meta_box( 'WPInsights', 'Insights', array( &$this,'draw_insights' ), $s, 'normal', 'high' );
+			add_meta_box( 'WPInsights', __( 'Insights', 'insights' ), array( &$this,'draw_insights' ), $s, 'normal', 'high' );
 		}
 	}
 
@@ -165,7 +164,7 @@ class WPInsights {
 			$options['maps_api']      = $_POST['maps_api'];
 
 			update_option( $this->DB_option, $options );
-			echo '<div class="updated fade"><p>Plugin settings saved.</p></div>';
+			echo '<div class="updated fade"><p>'. __( 'Plugin settings saved.', 'insights' ) .'</p></div>';
 		}
 
 		$post_results  = $options['post_results'];

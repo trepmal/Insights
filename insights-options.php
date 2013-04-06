@@ -16,10 +16,10 @@
 		<input type="text" name="wiki_results" size="15" value="<?php echo $wiki_results ?>"/><label for="wiki_results"> Wikipedia</label><br/>
 		<br />
 
-		<label for="image_tags"><input type="checkbox" name="image_tags"  <?php echo $image_tags ?> /> Search Flickr images by tag</label>  <br />
-		<label for="image_text"><input type="checkbox" name="image_text"  <?php echo $image_text ?> /> Search Flickr images by description</label>  <br />
-		<label for="image_nonc"><input type="checkbox" name="image_nonc"  <?php echo $image_nonc ?> /> Search only non-commercial Flickr images</label>  <br />
-		<label for="interactive"><input type="checkbox" name="interactive"  <?php echo $interactive ?> /> Show results as you type</label>  <br />
+		<label for="image_tags"><input type="checkbox" id="image_tags" name="image_tags"  <?php echo $image_tags ?> /> Search Flickr images by tag</label>  <br />
+		<label for="image_text"><input type="checkbox" id="image_text" name="image_text"  <?php echo $image_text ?> /> Search Flickr images by description</label>  <br />
+		<label for="image_nonc"><input type="checkbox" id="image_nonc" name="image_nonc"  <?php echo $image_nonc ?> /> Search only non-commercial Flickr images</label>  <br />
+		<label for="interactive"><input type="checkbox" id="interactive" name="interactive"  <?php echo $interactive ?> /> Show results as you type</label>  <br />
 
 		<br />
 		<h2>Google Maps</h2>

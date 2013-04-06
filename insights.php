@@ -62,7 +62,7 @@ class WPInsights {
 			) );
 
 			if ( ! empty( $options['maps_api'] ) ) {
-				wp_enqueue_script('googlemapsapi', 'http://maps.googleapis.com/maps/api/js?sensor=false', array(), 3, true );
+				wp_enqueue_script('googlemapsapi', '//maps.googleapis.com/maps/api/js?sensor=false', array(), 3, true );
 				wp_enqueue_script('insightsmaps', plugins_url( '/js/insights-maps.js', __FILE__ ), array( 'insights', 'googlemapsapi'), 1, true);
 				wp_localize_script('insights', 'InsightsMapSettings', array(
 					'content_width' => $content_width,

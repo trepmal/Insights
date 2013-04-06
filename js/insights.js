@@ -154,7 +154,7 @@ function insert_map() {
 function show_video(ytfile, yttitle, ytdesc, ytviews, ytrating) {
 
 	videoid=ytfile;
-	var link='<span style="padding: 2px"><object type="application/x-shockwave-flash" width="425" height="344" data="http://www.youtube.com/v/'+ytfile+'&amp;rel=0&amp;fs=1"><param name="movie" value="http://www.youtube.com/v/'+ytfile+'&amp;rel=0&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="wmode" value="transparent" /></object></span>';
+	var link='<span style="padding: 2px"><object type="application/x-shockwave-flash" width="425" height="344" data="//www.youtube.com/v/'+ytfile+'&amp;rel=0&amp;fs=1"><param name="movie" value="//www.youtube.com/v/'+ytfile+'&amp;rel=0&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="wmode" value="transparent" /></object></span>';
 	var data='<h4>'+yttitle+'</h4><p><a href="http://www.youtube.com/watch?v='+ytfile+'">link</a></p><p>'+ytdesc+'</p><p><strong>Views:</strong> '+ytviews+'</p><p><strong>Rating: </strong>'+ytrating+'</p>';
 	var button='<br /><p><input class="button" type="button" value="Add Video" onclick="insert_video();" ></p><p>(you may need to go from Visual to HTML mode and back to see the video object)</p>';
 
@@ -225,7 +225,7 @@ jQuery(document).ready(function($) {
 		if (mode==4) // wikipedia
 		{
 
-			$.getJSON('http://en.wikipedia.org/w/api.php?action=query&list=search&srwhat=text&srlimit=10&srsearch='+escape(phrase)+'&format=json&callback=?',
+			$.getJSON('//en.wikipedia.org/w/api.php?action=query&list=search&srwhat=text&srlimit=10&srsearch='+escape(phrase)+'&format=json&callback=?',
 				function(data){
 					var output='';
 					var wikipediaUrl = "http://en.wikipedia.org/wiki/";
@@ -243,7 +243,7 @@ jQuery(document).ready(function($) {
 
 		if (mode==6)  // google
 		{
-			$.getJSON("http://ajax.googleapis.com/ajax/services/search/web?q="+escape(phrase)+"&v=1.0&rsz=large&callback=?",
+			$.getJSON("//ajax.googleapis.com/ajax/services/search/web?q="+escape(phrase)+"&v=1.0&rsz=large&callback=?",
 				function(data){
 					var output='';
 					if (!data.responseData.results.length)
@@ -261,7 +261,7 @@ jQuery(document).ready(function($) {
 
 		if (mode==7)  // news
 		{
-			$.getJSON("http://ajax.googleapis.com/ajax/services/search/news?q="+escape(phrase)+"&v=1.0&scoring=d&rsz=large&callback=?",
+			$.getJSON("//ajax.googleapis.com/ajax/services/search/news?q="+escape(phrase)+"&v=1.0&scoring=d&rsz=large&callback=?",
 				function(data){
 					var output='';
 					if (!data.responseData.results.length)
@@ -280,7 +280,7 @@ jQuery(document).ready(function($) {
 
 		if (mode==10)  // blogs
 		{
-			$.getJSON("http://ajax.googleapis.com/ajax/services/search/blogs?q="+escape(phrase)+"&v=1.0&scoring=d&rsz=large&callback=?",
+			$.getJSON("//ajax.googleapis.com/ajax/services/search/blogs?q="+escape(phrase)+"&v=1.0&scoring=d&rsz=large&callback=?",
 				function(data){
 					var output='';
 					if (!data.responseData.results.length)
@@ -299,7 +299,7 @@ jQuery(document).ready(function($) {
 
 		if (mode==11)  // books
 		{
-			$.getJSON("http://ajax.googleapis.com/ajax/services/search/books?q="+escape(phrase)+"&v=1.0&as_brr=1&rsz=large&callback=?",
+			$.getJSON("//ajax.googleapis.com/ajax/services/search/books?q="+escape(phrase)+"&v=1.0&as_brr=1&rsz=large&callback=?",
 				function(data){
 					var output='';
 					if (!data.responseData.results.length)

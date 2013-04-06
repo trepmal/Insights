@@ -86,7 +86,7 @@ function showAddress() {
 	if ( status == google.maps.GeocoderStatus.OK ) {
 			map.setCenter( results[0].geometry.location );
 		} else {
-			alert("Geocode was not successful for the following reason: " + status + "\nDid you provide a city and state?");
+			alert( InsightsMapSettings.geocode_fail.replace('{status}', status ) );
 		}
 
 	});
@@ -106,7 +106,7 @@ function init_map() {
 		if ( status == google.maps.GeocoderStatus.OK ) {
 			map.setCenter( results[0].geometry.location );
 		} else {
-			alert("Geocode was not successful for the following reason: " + status);
+			alert( InsightsMapSettings.geocode_fail.replace('{status}', status ) );
 		}
 
 	});

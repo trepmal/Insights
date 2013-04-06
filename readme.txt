@@ -36,6 +36,8 @@ Plugin by Vladimir Prelovac. Looking for <a href="http://www.prelovac.com/vladim
 = 2 =
 * No more inclusion of wp-load.php
 * Update to newer Google Maps API
+* Works with SSL
+* Ready for translation
 * General cleanup
 * First Fork by Kailey Lampert
 

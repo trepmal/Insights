@@ -58,7 +58,17 @@ class WPInsights {
 				'content_width' => $content_width,
 				'insights_url' => plugins_url('', __FILE__),
 				'insights_interactive' => $interactive,
-				'nonce' => $nonce
+				'nonce' => $nonce,
+
+				'txt_youtubelink' => _x( 'Link', 'insights', 'link to youtube video' ),
+				'txt_youtubeviews' => _x( '<strong>Views:</strong> {views}', 'insights', '{views} is float placeholder' ),
+				'txt_youtuberating' => _x( '<strong>Rating:</strong> {rating}', 'insights', '{rating} is integer placeholder' ),
+				'txt_youtubeadd' => _x( 'Add Video', 'insights', 'add video to post content' ),
+				'txt_youtubeoembed' => __( 'Videos rely on oEmbed to play on the front-end', 'insights' ),
+
+				'txt_insertlink' => __( 'Insert link to selection', 'insights' ),
+				'txt_nomatch' => _x( 'No results matching "{query}"', 'insights', '{query} is search-phrase placeholder' ),
+				'txt_ajaxerror' => __( 'Cannot retrieve results', 'insights' ),
 			) );
 
 			if ( ! empty( $options['maps_api'] ) ) {
@@ -67,6 +77,7 @@ class WPInsights {
 				wp_localize_script('insights', 'InsightsMapSettings', array(
 					'content_width' => $content_width,
 					'v3api' => $options['maps_api'],
+					'geocode_fail' => _x( 'Geocode was not successful for the following reason: {status}', 'insights', '{status} is error-code placeholder' ),
 				) );
 			}
 

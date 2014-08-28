@@ -3,7 +3,7 @@
  * Plugin Name: Insights
  * Plugin URI: https://github.com/trepmal/Insights/
  * Description: Insights allows you to quickly search and insert information (links, images, videos, maps, news..) into your blog posts.
- * Version: 2
+ * Version: 2.1
  * Author: Vladimir Prelovac / Kailey Lampert
  * Author URI: kaileylampert.com
  * License: GPLv2 or later

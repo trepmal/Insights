@@ -20,7 +20,7 @@ function send_wp_editor( html1, html2, def ) {
 		def = '##';
 	}
 
-	if ((typeof tinyMCE != "undefined") && (edt = tinyMCE.getInstanceById('content')) && !edt.isHidden() ) {
+	if ((typeof tinyMCE != "undefined") && (edt = tinyMCE.get('content')) && !edt.isHidden() ) {
 		var sel = edt.selection.getContent({format : 'text'});
 
 		if ( sel == '' ) { // if no selection

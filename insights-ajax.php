@@ -127,7 +127,7 @@ function search_flickr( $keyword, $mode = 'tags', $count = 16, $nonc = 0 ) {
 	$rsp_obj = unserialize( $rsp );
 
 	// if we have photos
-	if ( $rsp_obj && $rsp_obj['photos']['total'] > 0 ) {
+	if ( $rsp_obj && isset( $rsp_obj['photos'] ) && $rsp_obj['photos']['total'] > 0 ) {
 		foreach ( $rsp_obj['photos']['photo'] as $photo ) {
 			// link to photo page
 			$link = 'http://www.flickr.com/photos/' . $photo['owner'] . '/' . $photo['id'];

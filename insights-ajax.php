@@ -119,7 +119,7 @@ function search_flickr( $keyword, $mode = 'tags', $count = 16, $nonc = 0 ) {
 	}
 
 	// call the Flickr API
-	$url = "http://api.flickr.com/services/rest/?" . implode( '&', $encoded_params );
+	$url = "https://api.flickr.com/services/rest/?" . implode( '&', $encoded_params );
 
 	$rsp = wp_remote_fopen( $url );
 
